@@ -24,17 +24,17 @@ class Node:
             if self.left is None:               # if no left child
                 self.left = Node(key, value)    # create new left child
             else:
-                # recursively call put on the left child
+                # recursively call put on left child
                 self.left.put(key, value)
         elif key > self.key:
             # if new key is greater than old go right
             if self.right is None:              # if no right child
-                self.right = Node(key, value)   # create a new right child
+                self.right = Node(key, value)   # create new right child
             else:
-                # Otherwise, recursively call put on the right child
+                # recursively call put on right child
                 self.right.put(key, value)
         else:
-            # If the key already exists, update the value
+            # if key already exists update value
             self.value = value
 
     def contains(self, key):
@@ -50,7 +50,14 @@ class Node:
         return result
 
     def to_string(self):
-        pass
+        # get the nodes in ascending order
+        nodes = self.inorder_traversal()
+
+        # convert nodes into a string representation
+        node_strings = [f'({key}: {value})' for key, value in nodes]
+
+        # combine individual representations to a single string
+        return ', '.join(node_strings)
 
     def count(self):
         pass
