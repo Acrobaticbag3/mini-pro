@@ -19,7 +19,35 @@ class Node:
     right: Any = None       # right child (a Node)
 
     def put(self, key, value):
-        pass
+        # if new key is less than old key go left
+        if key < self.key:
+            if self.left is None:               # if no left child
+                self.left = Node(key, value)    # create new left child
+            else:
+                # recursively call put on the left child
+                self.left.put(key, value)
+        elif key > self.key:
+            # if new key is greater than old go right
+            if self.right is None:              # if no right child
+                self.right = Node(key, value)   # create a new right child
+            else:
+                # Otherwise, recursively call put on the right child
+                self.right.put(key, value)
+        else:
+            # If the key already exists, update the value
+            self.value = value
+
+    def contains(self, key):
+        return self.get(key) is not None
+
+    def inorder_traversal(self):
+        result = []
+        if self.left is not None:
+            result.extend(self.left.inorder_traversal())
+        result.append((self.key, self.value))
+        if self.right is not None:
+            result.extend(self.right.inorder_traversal())
+        return result
 
     def to_string(self):
         pass
@@ -28,7 +56,13 @@ class Node:
         pass
 
     def get(self, key):
-        pass
+        if key == self.key:
+            return self.value
+        elif key < self.key and self.left is not None:
+            return self.left.get(key)
+        elif key > self.key and self.right is not None:
+            return self.right.get(key)
+        return None
 
     def max_depth(self):
         pass
@@ -88,7 +122,7 @@ class BstMap:
             return 0
         else:
             return self.root.max_depth()
-        
+
     # Returns an internal node count. That is, the number of nodes 
     # that has aleast one child (i.e. not leafs)
     def count_internal_nodes(self):
